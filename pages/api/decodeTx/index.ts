@@ -2,7 +2,7 @@
 import { ethers } from 'ethers'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-type Data = {
+export type DecodeTxResponse = {
     decoded?: string
     errorMessage?: string
 
@@ -10,7 +10,7 @@ type Data = {
 
 export default function handler(
     req: NextApiRequest,
-    res: NextApiResponse<Data>
+    res: NextApiResponse<DecodeTxResponse>
 ) {
     try {
         const rawTxHex = req.query.rawTxHex as string

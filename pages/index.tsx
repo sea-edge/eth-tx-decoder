@@ -1,9 +1,20 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import type { NextPage } from 'next';
+import Head from 'next/head';
+import Image from 'next/image';
+import { useState } from 'react';
+import useSWR, { useSWRConfig } from 'swr';
+import styles from '../styles/Home.module.css';
+import { DecodeTxResponse } from './api/decodeTx';
+
 
 const Home: NextPage = () => {
+  const [value, setValue] = useState("");
+  const { mutate } = useSWRConfig()
+  const onChangeRequiredInput = (value?: string) => {
+    setValue(value || "")
+    mutate(`/api/decodeTx?rawTxHex=${value}`)
+  }
+  const { data, error } = useSWR<DecodeTxResponse, Error>(`/api/decodeTx?rawTxHex=${value}`, fetcher)
   return (
     <div className={styles.container}>
       <Head>
@@ -16,7 +27,7 @@ const Home: NextPage = () => {
           Welcome to <a href="https://github.com/sea-edge/eth-tx-decoder">Ethereum Transaction Decoder!</a>
         </h1>
       </div>
-      <form className="flex flex-col h-full">
+      <form className="flex flex-col h-full justify-center">
         <textarea className='
         block
         resize
@@ -32,15 +43,40 @@ const Home: NextPage = () => {
         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
         w-3/5
         h-600
-        justify-center
         '
           placeholder='Input Raw Transaction! ex.) 0x02fff...'
-        // value={input}
-        // onChange={e => setInput(e.target.value)}
+          // value={input}
+          onChange={(e) => onChangeRequiredInput(e.target.value)}
         />
-        <button className="flex justify-center text-3xl font-bold underline">
-          Hello world!
-        </button>
+        {
+          !data
+            ? <p>Loading...</p>
+            : <textarea className='
+            block
+            resize
+            text-base
+            font-normal
+            text-gray-700
+            bg-white bg-clip-padding
+            border border-solid border-gray-300
+            rounded
+            transition
+            ease-in-out
+            m-1
+            focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+            w-3/5
+            h-auto
+            justify-center
+            '
+              placeholder='Input Raw Transaction! ex.) 0x02fff...'
+              value={JSON.stringify(JSON.parse(data.decoded || "{}"), null, "\t") || ""}
+              // onChange={e => setInput(e.target.value)}
+              readOnly
+            />
+
+        }
+
+
       </form>
 
 
@@ -62,3 +98,4 @@ const Home: NextPage = () => {
 }
 
 export default Home
+const fetcher = (url: string) => fetch(url).then((r) => r.json())
