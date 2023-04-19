@@ -14,7 +14,7 @@ export default function handler(
 ) {
     try {
         const rawTxHex = req.query.rawTxHex as string
-        const decoded = ethers.utils.parseTransaction(rawTxHex)
+        const decoded = ethers.Transaction.from(rawTxHex)
         res.status(200).json({ decoded: JSON.stringify(decoded) })
 
     } catch (e) {
