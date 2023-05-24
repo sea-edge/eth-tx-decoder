@@ -64,8 +64,8 @@ const Home: NextPage = () => {
             ease-in-out
             m-1
             focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-            w-3/5
-            h-auto
+            w-4/5
+            h-3/5
             justify-center
             '
               placeholder='Input Raw Transaction! ex.) 0x02fff...'
