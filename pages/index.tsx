@@ -41,7 +41,7 @@ const Home: NextPage = () => {
         ease-in-out
         m-1
         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-        w-3/5
+        w-4/5
         h-600
         '
           placeholder='Input Raw Transaction! ex.) 0x02fff...'
@@ -53,7 +53,8 @@ const Home: NextPage = () => {
             ? <p>Loading...</p>
             : <textarea className='
             block
-            resize
+            h-auto
+            resize-none
             text-base
             font-normal
             text-gray-700
