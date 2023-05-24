@@ -27,9 +27,10 @@ const Home: NextPage = () => {
           Welcome to <a href="https://github.com/sea-edge/eth-tx-decoder">Ethereum Transaction Decoder!</a>
         </h1>
       </div>
-      <form className="flex flex-col h-full justify-center">
+      <form className="flex flex-col h-screen">
         <textarea className='
         block
+        h-600
         resize
         text-base
         font-normal
@@ -41,8 +42,7 @@ const Home: NextPage = () => {
         ease-in-out
         m-1
         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-        w-3/5
-        h-600
+        w-4/5
         '
           placeholder='Input Raw Transaction! ex.) 0x02fff...'
           // value={input}
@@ -53,6 +53,7 @@ const Home: NextPage = () => {
             ? <p>Loading...</p>
             : <textarea className='
             block
+            h-auto
             resize
             text-base
             font-normal
@@ -64,8 +65,7 @@ const Home: NextPage = () => {
             ease-in-out
             m-1
             focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
-            w-3/5
-            h-auto
+            w-4/5
             justify-center
             '
               placeholder='Input Raw Transaction! ex.) 0x02fff...'
