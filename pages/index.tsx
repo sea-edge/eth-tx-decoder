@@ -30,7 +30,7 @@ const Home: NextPage = () => {
       <form className="flex flex-col h-screen">
         <textarea className='
         block
-        h-600
+        field-sizing-content
         resize
         text-base
         font-normal
