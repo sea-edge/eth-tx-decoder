@@ -21,7 +21,7 @@ export default function handler(
         }
 
         const decoded = ethers.Transaction.from(rawTxHex)
-        let result: DecodeTxResponse = { decoded: JSON.stringify(decoded) }
+        let decodedWithAbi: string | undefined = undefined
 
         // If ABI is provided and transaction has data, try to decode with ABI
         if (abi && decoded.data && decoded.data !== '0x') {
@@ -41,13 +41,18 @@ export default function handler(
                             value: arg.toString()
                         }))
                     }
-                    result.decodedWithAbi = JSON.stringify(abiDecodedResult)
+                    decodedWithAbi = JSON.stringify(abiDecodedResult)
                 }
             } catch (abiError) {
                 // If ABI decoding fails, just return the basic decoded transaction
                 // Don't throw error to maintain backward compatibility
                 console.warn('ABI decoding failed:', abiError)
             }
+        }
+
+        const result: DecodeTxResponse = { 
+            decoded: JSON.stringify(decoded),
+            ...(decodedWithAbi && { decodedWithAbi })
         }
 
         res.status(200).json(result)
